@@ -1,0 +1,30 @@
+{
+  "homepage": "https://tech-mode-backend.vercel.app",
+  "name": "tech-mode-backend",
+  "version": "1.0.3",
+  "description": "",
+  "main": "index.js",
+  "engines": {
+    "node": "16.x"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "deploy": "cd client && npm run build && cd .. && git add ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "firebase": "^9.8.4",
+    "stripe": "^9.7.0",
+    "webpack": "^5.73.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
