@@ -15,7 +15,7 @@ const endpointSecret =
 app.use(express.static(path.resolve(__dirname, "client", "build")));
 app.use(
   cors({
-    origin: ["https://tech-mode.vercel.app", "http://127.0.0.1:5173"],
+    origin: ["https://rebar-shop.vercel.app", "http://127.0.0.1:5173"],
   })
 );
 
