@@ -25,9 +25,6 @@ app.use(
   })
 );
 
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-});
 app.post("/webhook", (req, res) => {
   let event = req.body;
   // Only verify the event if you have an endpoint secret defined.
@@ -79,19 +76,20 @@ app.post("/payment/create-customer", async (req, res) => {
   res.json({ cool: "true" });
 });
 app.post("/payment/create-checkout-session", async (req, res) => {
-  console.log(1);
   const products = await getProductPrice();
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     mode: "payment",
-    line_items: req.body.items.map(({ id, quantity }) => {
+    line_items: req.body.items.map(({ id, quantity, options }) => {
       if (quantity < 1) return;
       const { name, priceInCent, images } = products[id];
       return {
         price_data: {
           currency: "usd",
           product_data: {
-            name,
+            name: `${name} ${[...Object.keys(options)].map(
+              (key) => `${key}: ${options[key]}`
+            )}`,
             images: images,
           },
           unit_amount: priceInCent,
