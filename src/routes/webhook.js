@@ -1,7 +1,6 @@
 import express, { json } from "express";
 import dotenv from "dotenv";
 import Stripe from "stripe";
-import cors from "cors";
 import { verfiyOrder } from "../firebase-config.js";
 dotenv.config();
 const router = express.Router();
@@ -13,17 +12,8 @@ router.use(
   })
 );
 
-router.use(
-  cors({
-    origin: ["https://rebar-shop.vercel.app", "http://127.0.0.1:5173"],
-  })
-);
 
-router.use(
-  cors({
-    origin: ["https://rebar-shop.vercel.app", "http://127.0.0.1:5173"],
-  })
-);
+
 router.post("/", async (req, res) => {
   let data;
   let eventType;

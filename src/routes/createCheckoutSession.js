@@ -1,5 +1,4 @@
 import express, { json } from "express";
-import cors from "cors";
 import Stripe from "stripe";
 import { getProductPrice, addOrder } from "../firebase-config.js";
 
@@ -12,11 +11,7 @@ router.use(
   })
 );
 
-router.use(
-  cors({
-    origin: ["https://rebar-shop.vercel.app", "http://127.0.0.1:5173"],
-  })
-);
+
 router.post("/", async (req, res) => {
   const products = await getProductPrice();
   const { userId, address, items } = req.body;
