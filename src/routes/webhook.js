@@ -1,18 +1,14 @@
-import express, { json } from "express";
-import dotenv from "dotenv";
-import Stripe from "stripe";
-import { verfiyOrder } from "../firebase-config.js";
-dotenv.config();
+const express = require("express");
+const Stripe = require("stripe");
+const { verfiyOrder } = require("../firebase-config.js");
 const router = express.Router();
 const stripe = Stripe(process.env.REACT_APP_STRIPE_API_KEY);
-
+const { json } = express;
 router.use(
   json({
     verify: (req, res, buffer) => (req["rawBody"] = buffer),
   })
 );
-
-
 
 router.post("/", async (req, res) => {
   let data;
@@ -36,7 +32,7 @@ router.post("/", async (req, res) => {
       console.log(`⚠️  Webhook signature verification failed.`);
       return res.sendStatus(400);
     }
-    // Extract the object from the event.
+    // Extract the object = the event.
     data = event.data;
     eventType = event.type;
   } else {
@@ -61,4 +57,4 @@ router.post("/", async (req, res) => {
   res.sendStatus(200);
 });
 
-export default router;
+module.exports = router;

@@ -1,9 +1,7 @@
-import express from "express";
-import dotenv from "dotenv";
-import Stripe from "stripe";
-import bod from "body-parser";
+const express = require("express");
+const Stripe = require("stripe");
+const bod = require("body-parser");
 const { json } = bod;
-dotenv.config();
 const router = express.Router();
 const stripe = Stripe(process.env.REACT_APP_STRIPE_API_KEY);
 
@@ -17,5 +15,4 @@ router.post("/", async (req, res) => {
   });
   res.json({ id: ans.id });
 });
-
-export default router;
+module.exports = router;

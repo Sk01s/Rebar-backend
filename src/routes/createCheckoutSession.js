@@ -1,17 +1,16 @@
-import express, { json } from "express";
-import Stripe from "stripe";
-import { getProductPrice, addOrder } from "../firebase-config.js";
+const express = require("express");
+const Stripe = require("stripe");
+const { getProductPrice, addOrder } = require("../firebase-config.js");
 
 const stripe = Stripe(process.env.REACT_APP_STRIPE_API_KEY);
 const router = express.Router();
-
+const { json } = express;
 
 router.use(
   json({
     verify: (req, res, buffer) => (req["rawBody"] = buffer),
   })
 );
-
 
 router.post("/", async (req, res) => {
   const products = await getProductPrice();
@@ -52,4 +51,4 @@ router.post("/", async (req, res) => {
   res.json({ url: session.url });
 });
 
-export default router;
+module.exports = router;

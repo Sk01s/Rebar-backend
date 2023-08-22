@@ -1,10 +1,9 @@
-import dotenv from "dotenv";
-import { sendMail } from "./src/sendEmail.js";
-import express, { json } from "express";
-import cors from "cors";
-import webhook from "./src/routes/webhook.js";
-import checkout from "./src/routes/createCheckoutSession.js";
-import customer from "./src/routes/createCustomer.js";
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const webhook = require("./src/routes/webhook.js");
+const checkout = require("./src/routes/createCheckoutSession.js");
+const customer = require("./src/routes/createCustomer.js");
 dotenv.config();
 const app = express();
 

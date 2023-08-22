@@ -1,6 +1,6 @@
-import dotenv from "dotenv";
-import admin from "firebase-admin";
-dotenv.config();
+require("dotenv").config();
+const admin = require("firebase-admin");
+
 const { private_key } = JSON.parse(process.env.PRIVATE_KEY);
 const serviceAccount = {
   type: process.env.TYPE,
@@ -20,11 +20,11 @@ const app = admin.initializeApp({
 
 const firebase = admin.firestore(app);
 
-export async function fetchProducts() {
+async function fetchProducts() {
   return await firebase.collection("/products").get();
 }
 
-export function processProducts(products) {
+function processProducts(products) {
   const categories = {};
 
   products.docs.forEach((product) => {
@@ -38,13 +38,7 @@ export function processProducts(products) {
 
   return categories;
 }
-export async function addOrder(
-  orderId,
-  address,
-  items,
-  priceInCents,
-  customerId
-) {
+async function addOrder(orderId, address, items, priceInCents, customerId) {
   firebase.collection("orders").doc(orderId).create({
     address,
     items,
@@ -53,17 +47,17 @@ export async function addOrder(
     isPayed: false,
   });
 }
-export async function getProductPrice() {
+async function getProductPrice() {
   const products = await fetchProducts();
   return processProducts(products);
 }
 
-export async function getOrder(orderId) {
+async function getOrder(orderId) {
   const res = await firebase.collection("orders").doc(orderId).get();
   return res.data();
 }
 
-export async function updateOrder(orderId, order) {
+async function updateOrder(orderId, order) {
   const res = await firebase
     .collection("orders")
     .doc(orderId)
@@ -73,8 +67,16 @@ export async function updateOrder(orderId, order) {
     });
   return res;
 }
-export async function verfiyOrder(orderId) {
+async function verfiyOrder(orderId) {
   const order = await getOrder(orderId);
   if (!order) return "not found";
   await updateOrder(orderId, order);
 }
+
+module.exports = {
+  verfiyOrder,
+  updateOrder,
+  getOrder,
+  getProductPrice,
+  addOrder,
+};
