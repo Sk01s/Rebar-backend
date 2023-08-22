@@ -1,12 +1,12 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const dotenv = require("dotenv");
 const webhook = require("./src/routes/webhook.js");
 const checkout = require("./src/routes/createCheckoutSession.js");
 const customer = require("./src/routes/createCustomer.js");
-dotenv.config();
 const app = express();
-
+const { json } = express;
+app.use(json());
 app.use(
   cors({
     origin: ["https://rebar-shop.vercel.app", "http://localhost:5173"],
@@ -15,9 +15,11 @@ app.use(
 
 app.use("/webhook", webhook);
 app.use("/payment/create-checkout-session", checkout);
-app.use("/payment/create-customer", customer);
+app.use("payment/create-customer", customer);
 app.get("/", (req, res) => {
-  res.json(req.body);
+  res.json({
+    hi: req.body,
+  });
 });
 // sendMail("youssef", "alsarakibiy@gmail.com");
 
