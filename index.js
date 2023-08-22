@@ -10,14 +10,16 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["https://rebar-shop.vercel.app", "http://127.0.0.1:5173"],
+    origin: ["https://rebar-shop.vercel.app", "http://localhost:5173"],
   })
 );
 
 app.use("/webhook", webhook);
 app.use("/payment/create-checkout-session", checkout);
 app.use("/payment/create-customer", customer);
-
+app.get("/", (req, res) => {
+  res.json(req.body);
+});
 // sendMail("youssef", "alsarakibiy@gmail.com");
 
 app.listen(process.env.PORT || 5500, () =>
